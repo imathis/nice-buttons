@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |gem|
   gem.name            = "nice-buttons"
-  gem.version         = "1.0.0"
+  gem.version         = "1.0.1"
   gem.authors         = ["Brandon Mathis"]
   gem.email           = ["brandon@imathis.com"]
   gem.description     = "Easily create beautiful CSS3 buttons with Compass."
