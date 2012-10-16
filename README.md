@@ -6,7 +6,9 @@ Nice Buttons makes it easy to create beautiful CSS3 buttons. This is an extensio
 
 If you have the Bundler gem installed, add this line to your application's Gemfile:
 
-    gem 'nice-buttons'
+    group :assets do
+      gem 'nice-buttons'
+    end
 
 Next, install this gem by running:
 
