@@ -47,7 +47,10 @@ Nice buttons comes with a demo so you can see how it works and play around with 
     #command line
     bundle exec compass install nice-buttons
 
-Or if you aren't using bundler
+Or if you aren't using bundler run this instead:
+
+   #command line
+   compass install nice-buttons
 
 ## Contributing
 
