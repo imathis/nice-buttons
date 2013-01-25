@@ -1,5 +1,6 @@
 @import "compass/css3";
 @import "color-helpers";
+$nice-buttons-background: shiny !default;
 
 // Button style reset and basic styles
 @mixin nb-reset() {
@@ -13,38 +14,62 @@
   border: { width: 1px; style: solid }
   @include border-radius(.3em);
   &:active, &:hover { outline: none }
-  @include transition(background-color,box-shadow .15s);
+  @include transition(box-shadow .15s);
 }
 
 %nb-reset { @include nb-reset; }
 
 // Automate the gradient picking with simple color shifting
 
-@mixin nb-gradient($bg) {
+@function nb-gradient-shiny($bg) {
   // scale main color to pick
   $top:      scale-color($bg, $lightness: if-bright($bg,80%,40%));
   $middle-1: scale-color($bg, $lightness: if-bright($bg,20%,10%));
   $middle-2: scale-color($bg, $lightness: if-bright($bg,-2%,-5%));
   $bottom:   scale-color($bg, $lightness: if-bright($bg,-10%,-20%));
 
-  @include background-image(linear-gradient(
-    $top, $middle-1 50%, $middle-2 50%, $bottom));
+  @return linear-gradient($top, $middle-1 50%, $middle-2 50%, $bottom);
 }
 
+@function nb-gradient-flat($bg) {
+  // scale main color to pick
+  $top:      scale-color($bg, $lightness: if-bright($bg,80%,40%), $saturation: if-bright($bg,30%,70%));
+  $bottom:   scale-color($bg, $lightness: if-bright($bg,-10%,-20%), $saturation: if-bright($bg,30%,70%));
+  @return linear-gradient($top, $bottom);
+}
 
-@mixin nice-button($bg: #eee) {
+@mixin nice-button($bg: #eee, $gradient: $nice-buttons-background, $box-shadow: false) {
   @extend %nb-reset;
 
   // Normal styles
   background-color: $bg;
   border-color: scale-color($bg, $lightness: -20%);
   color: text-contrast($bg);
-  @include nb-gradient(rgba($bg, .7)); // alpha shows color transitions
+
+  // Gradient
+  $gradient-bg: rgba($bg, .7); // alpha shows color transitions
+  @if $gradient == shiny {
+    @include background-image(nb-gradient-shiny($gradient-bg));
+  }
+  @else if $gradient == flat {
+    @include background-image(nb-gradient-flat($gradient-bg));
+  }
+  // Allow a gradient function to be passed in.
+  @else if $gradient == none {
+    background-image: none;
+  }
+  @else {
+    @include background-image($background);
+  }
 
   text-shadow: scale-color($bg, $lightness: 
     if-bright($bg,25%,-25%)) 0 1px 1px;
-  @include box-shadow(rgba(#fff, 
-    if-bright($bg,.6,.2)) 0 0 1px 1px inset);
+  @if $box-shadow == false {
+    @include box-shadow(rgba(#fff, if-bright($bg,.6,.2)) 0 0 1px 1px inset);
+  }
+  @else{
+    @include box-shadow($box-shadow);
+  }
 
   // State styles
   &:hover, &:focus {

@@ -15,3 +15,4 @@ body {
 
 button  { @include nice-button }
 .button { @include nice-button(#494e57) }
+.button-flat { @include nice-button(#951316, flat, $box-shadow: none); }
